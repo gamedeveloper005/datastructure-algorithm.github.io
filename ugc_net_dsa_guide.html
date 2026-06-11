@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UGC NET JRF CSE – Data Structures & Algorithms</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0f1a;
+  --surface: #121929;
+  --card: #1a2540;
+  --border: #263050;
+  --text: #dce8ff;
+  --muted: #7a90b8;
+  --accent: #4fa3ff;
+  --green: #2ecc8a;
+  --green-bg: rgba(46,204,138,0.12);
+  --amber: #f5c842;
+  --amber-bg: rgba(245,200,66,0.12);
+  --red: #ff5f5f;
+  --red-bg: rgba(255,95,95,0.12);
+  --purple: #b47eff;
+  --purple-bg: rgba(180,126,255,0.12);
+  --teal: #38e8d8;
+  --teal-bg: rgba(56,232,216,0.12);
+  --hot: #ff6b35;
+  --hot-bg: rgba(255,107,53,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; min-height: 100vh; }
+a { color: var(--accent); }
+
+/* Header */
+.header { padding: 28px 28px 0; border-bottom: 1px solid var(--border); }
+.header-inner { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-bottom: 16px; }
+.header h1 { font-family: 'Syne', sans-serif; font-size: 26px; color: var(--text); letter-spacing: -0.5px; }
+.header h1 span { color: var(--accent); }
+.header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.badge-hot { display: inline-flex; align-items: center; gap: 5px; background: var(--hot-bg); color: var(--hot); border: 1px solid rgba(255,107,53,0.3); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 500; }
+
+/* Tab nav */
+.tab-nav { display: flex; gap: 2px; overflow-x: auto; padding: 0 28px; background: var(--surface); border-bottom: 1px solid var(--border); scrollbar-width: none; }
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn { flex-shrink: 0; background: none; border: none; border-bottom: 3px solid transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500; padding: 13px 18px; cursor: pointer; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-btn .num { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; background: var(--card); border-radius: 50%; font-size: 10px; margin-right: 6px; }
+
+/* Main */
+.main { padding: 28px; max-width: 1000px; }
+.tab-section { display: none; }
+.tab-section.active { display: block; }
+.section-header { margin-bottom: 22px; }
+.section-header h2 { font-family: 'Syne', sans-serif; font-size: 20px; letter-spacing: -0.3px; }
+.section-header p { font-size: 13.5px; color: var(--muted); margin-top: 5px; }
+
+/* Grid layouts */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 20px; }
+
+/* Cards */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+.card h3 { font-size: 14px; font-weight: 500; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.card p, .card li { font-size: 13.5px; color: var(--text); line-height: 1.7; }
+.card ul { padding-left: 18px; }
+.card ul li { margin-bottom: 6px; }
+.card-green { border-color: var(--green); border-width: 1px; }
+.card-amber { border-color: var(--amber); border-width: 1px; }
+.card-purple { border-color: var(--purple); border-width: 1px; }
+
+/* Formula box */
+.formula { background: #0d1525; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 14px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--teal); line-height: 2; }
+.formula .label { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 6px; display: block; }
+.formula strong { color: var(--amber); }
+
+/* Complexity badges */
+.cx { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; padding: 2px 10px; border-radius: 5px; }
+.cx-fast { background: var(--green-bg); color: var(--green); }
+.cx-good { background: var(--teal-bg); color: var(--teal); }
+.cx-ok { background: var(--amber-bg); color: var(--amber); }
+.cx-slow { background: var(--red-bg); color: var(--red); }
+.cx-vslow { background: var(--red-bg); color: var(--red); opacity: 0.8; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: var(--surface); color: var(--muted); font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+.algo-name { color: var(--text); font-weight: 500; }
+
+/* Exam tip box */
+.exam-tip { background: var(--hot-bg); border: 1px solid rgba(255,107,53,0.3); border-radius: 10px; padding: 14px 18px; margin: 16px 0; }
+.exam-tip .tip-title { font-size: 12px; font-weight: 500; color: var(--hot); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+.exam-tip p, .exam-tip li { font-size: 13.5px; color: var(--text); line-height: 1.7; }
+.exam-tip ul { padding-left: 18px; }
+
+/* Remember box */
+.remember { background: var(--purple-bg); border: 1px solid rgba(180,126,255,0.3); border-radius: 10px; padding: 14px 18px; margin: 16px 0; }
+.remember .r-title { font-size: 12px; font-weight: 500; color: var(--purple); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+.remember p, .remember li { font-size: 13.5px; color: var(--text); line-height: 1.7; }
+.remember ul { padding-left: 18px; }
+.remember li { margin-bottom: 5px; }
+
+/* Sub-section */
+.sub-title { font-family: 'Syne', sans-serif; font-size: 15px; color: var(--text); margin: 22px 0 12px; border-left: 3px solid var(--accent); padding-left: 12px; }
+
+/* Infix table */
+.small-table { font-size: 13px; }
+.small-table th { font-size: 12px; }
+.small-table td { padding: 6px 12px; }
+
+/* Divider */
+.divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+/* Tags */
+.tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; margin: 2px; font-weight: 500; }
+.tag-yes { background: var(--green-bg); color: var(--green); }
+.tag-no { background: var(--red-bg); color: var(--red); }
+.tag-hot { background: var(--hot-bg); color: var(--hot); }
+
+/* Rotation diagram placeholder */
+.avl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 16px 0; }
+.avl-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+.avl-card .avl-name { font-weight: 500; color: var(--amber); font-size: 14px; margin-bottom: 8px; }
+.avl-card .avl-trigger { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.avl-card .avl-fix { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--green); }
+
+/* scroll-to-top */
+.back-top { text-align: right; margin-top: 30px; }
+.back-top a { font-size: 13px; color: var(--muted); text-decoration: none; }
+</style>
+</head>
+<body id="top">
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <h1>Data Structures &amp; <span>Algorithms</span></h1>
+      <p>UGC NET JRF — Computer Science &amp; Applications &nbsp;|&nbsp; Complete Revision Guide</p>
+    </div>
+    <span class="badge-hot">★ Most Tested Unit</span>
+  </div>
+</div>
+
+<div class="tab-nav">
+  <button class="tab-btn active" data-tab="complexity"><span class="num">1</span>Complexity</button>
+  <button class="tab-btn" data-tab="arrays"><span class="num">2</span>Arrays</button>
+  <button class="tab-btn" data-tab="linkedlist"><span class="num">3</span>Linked Lists</button>
+  <button class="tab-btn" data-tab="stackqueue"><span class="num">4</span>Stack &amp; Queue</button>
+  <button class="tab-btn" data-tab="trees"><span class="num">5</span>Trees</button>
+  <button class="tab-btn" data-tab="graphs"><span class="num">6</span>Graphs</button>
+  <button class="tab-btn" data-tab="sorting"><span class="num">7</span>Sorting ★</button>
+  <button class="tab-btn" data-tab="hashing"><span class="num">8</span>Search &amp; Hashing</button>
+</div>
+
+<div class="main">
+
+<!-- ===================== TAB 1: COMPLEXITY ===================== -->
+<section class="tab-section active" id="tab-complexity">
+  <div class="section-header">
+    <h2>Algorithm Complexity Analysis</h2>
+    <p>Most frequently asked in UGC NET — understand notations, master theorem, and recurrence relations.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card card-green">
+      <h3>Big-O Notation — O(f(n))</h3>
+      <p><strong>Upper Bound</strong> (Worst Case)</p>
+      <p>f(n) = O(g(n)) means there exist constants c &gt; 0 and n₀ such that:</p>
+      <div class="formula" style="margin-top:8px">f(n) ≤ c·g(n) &nbsp; for all n ≥ n₀</div>
+      <p style="color:var(--muted); font-size:13px; margin-top:8px">Used most commonly in practice. Gives the worst-case guarantee.</p>
+    </div>
+    <div class="card card-amber">
+      <h3>Omega Notation — Ω(f(n))</h3>
+      <p><strong>Lower Bound</strong> (Best Case)</p>
+      <p>f(n) = Ω(g(n)) means there exist constants c &gt; 0 and n₀ such that:</p>
+      <div class="formula" style="margin-top:8px">f(n) ≥ c·g(n) &nbsp; for all n ≥ n₀</div>
+      <p style="color:var(--muted); font-size:13px; margin-top:8px">Describes the best-case behaviour of the algorithm.</p>
+    </div>
+    <div class="card card-purple">
+      <h3>Theta Notation — Θ(f(n))</h3>
+      <p><strong>Tight Bound</strong> (Average Case)</p>
+      <p>f(n) = Θ(g(n)) means the function is both O(g(n)) AND Ω(g(n)):</p>
+      <div class="formula" style="margin-top:8px">c₁·g(n) ≤ f(n) ≤ c₂·g(n)</div>
+      <p style="color:var(--muted); font-size:13px; margin-top:8px">The most precise description when best = worst case.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Complexity Order (slowest to fastest growth) — Memorise this!</h3>
+  <div class="formula">
+    <span class="label">From FASTEST to SLOWEST (left = most efficient):</span>
+    <strong>O(1)</strong> &lt; <strong>O(log n)</strong> &lt; <strong>O(√n)</strong> &lt; <strong>O(n)</strong> &lt; <strong>O(n log n)</strong> &lt; <strong>O(n²)</strong> &lt; <strong>O(n³)</strong> &lt; <strong>O(2ⁿ)</strong> &lt; <strong>O(n!)</strong>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <h3 class="sub-title">Common Operations & Their Complexity</h3>
+      <div class="table-wrap">
+        <table class="small-table">
+          <tr><th>Operation / Structure</th><th>Complexity</th></tr>
+          <tr><td>Array access by index</td><td><span class="cx cx-fast">O(1)</span></td></tr>
+          <tr><td>Hash table lookup (avg)</td><td><span class="cx cx-fast">O(1)</span></td></tr>
+          <tr><td>Binary search (sorted array)</td><td><span class="cx cx-good">O(log n)</span></td></tr>
+          <tr><td>BST search (balanced)</td><td><span class="cx cx-good">O(log n)</span></td></tr>
+          <tr><td>Linear search</td><td><span class="cx cx-ok">O(n)</span></td></tr>
+          <tr><td>BFS / DFS traversal</td><td><span class="cx cx-ok">O(V+E)</span></td></tr>
+          <tr><td>Merge / Heap sort</td><td><span class="cx cx-ok">O(n log n)</span></td></tr>
+          <tr><td>Bubble / Insertion sort</td><td><span class="cx cx-slow">O(n²)</span></td></tr>
+          <tr><td>Floyd-Warshall</td><td><span class="cx cx-slow">O(n³)</span></td></tr>
+          <tr><td>Subset generation</td><td><span class="cx cx-vslow">O(2ⁿ)</span></td></tr>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3 class="sub-title">Master Theorem</h3>
+      <p style="font-size:13.5px; color:var(--muted); margin-bottom:10px">For recurrences of the form: <code style="color:var(--teal)">T(n) = aT(n/b) + f(n)</code></p>
+      <div class="formula">
+        <span class="label">Let k = log<sub>b</sub>(a) :</span>
+        <strong>Case 1:</strong> f(n) = O(n^(k-ε)) → T(n) = <strong>Θ(n^k)</strong>
+        <br><strong>Case 2:</strong> f(n) = Θ(n^k) &nbsp;&nbsp;&nbsp;→ T(n) = <strong>Θ(n^k · log n)</strong>
+        <br><strong>Case 3:</strong> f(n) = Ω(n^(k+ε)) → T(n) = <strong>Θ(f(n))</strong>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table class="small-table">
+          <tr><th>Recurrence</th><th>Result</th><th>Algorithm</th></tr>
+          <tr><td><code>T(n/2) + 1</code></td><td><span class="cx cx-good">O(log n)</span></td><td>Binary Search</td></tr>
+          <tr><td><code>T(n/2) + n</code></td><td><span class="cx cx-ok">O(n)</span></td><td>—</td></tr>
+          <tr><td><code>2T(n/2) + n</code></td><td><span class="cx cx-ok">O(n log n)</span></td><td>Merge Sort</td></tr>
+          <tr><td><code>2T(n/2) + 1</code></td><td><span class="cx cx-ok">O(n)</span></td><td>Tree traversal</td></tr>
+          <tr><td><code>T(n-1) + n</code></td><td><span class="cx cx-slow">O(n²)</span></td><td>Selection Sort</td></tr>
+          <tr><td><code>2T(n-1) + 1</code></td><td><span class="cx cx-vslow">O(2ⁿ)</span></td><td>Tower of Hanoi</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-tip">
+    <div class="tip-title">🔥 UGC NET Hot Topics — Complexity</div>
+    <ul>
+      <li>Which notation gives upper / lower / tight bound — very frequently asked.</li>
+      <li>Apply Master Theorem to a given recurrence — always 1–2 questions.</li>
+      <li><strong>Tower of Hanoi</strong> with n disks = <code>2ⁿ – 1</code> moves → T(n) = 2T(n-1) + 1 → O(2ⁿ).</li>
+      <li>little-o vs Big-O: o(g) is strictly less (no equality), O(g) includes equality.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TAB 2: ARRAYS ===================== -->
+<section class="tab-section" id="tab-arrays">
+  <div class="section-header">
+    <h2>Arrays</h2>
+    <p>Focus on memory address calculation formulas — guaranteed 1–2 questions in every paper.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>1D Array Address Formula</h3>
+      <div class="formula">
+        <span class="label">Address of A[i] :</span>
+        <strong>Base + (i – LB) × Size</strong>
+        <br>
+        <span style="color:var(--muted); font-size:12px">LB = Lower Bound (default 0),  Size = element size in bytes</span>
+      </div>
+      <p><strong>Example:</strong> A[5..15], base=1000, int(4 bytes). Address of A[10] = 1000 + (10-5)×4 = <strong>1020</strong></p>
+    </div>
+    <div class="card">
+      <h3>Time Complexity of Array Operations</h3>
+      <div class="table-wrap" style="margin-top:6px">
+        <table class="small-table">
+          <tr><th>Operation</th><th>Complexity</th></tr>
+          <tr><td>Access (by index)</td><td><span class="cx cx-fast">O(1)</span></td></tr>
+          <tr><td>Search (unsorted)</td><td><span class="cx cx-ok">O(n)</span></td></tr>
+          <tr><td>Search (sorted, binary)</td><td><span class="cx cx-good">O(log n)</span></td></tr>
+          <tr><td>Insert at end</td><td><span class="cx cx-fast">O(1)</span></td></tr>
+          <tr><td>Insert at start / middle</td><td><span class="cx cx-ok">O(n)</span></td></tr>
+          <tr><td>Delete at end</td><td><span class="cx cx-fast">O(1)</span></td></tr>
+          <tr><td>Delete at start / middle</td><td><span class="cx cx-ok">O(n)</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-title">2D Array Address Formulas</h3>
+  <div class="grid-2">
+    <div class="card card-green">
+      <h3>Row-Major Order (C language)</h3>
+      <div class="formula">
+        <span class="label">Address of A[i][j] :</span>
+        <strong>Base + [(i – R₁)×NC + (j – C₁)] × Size</strong>
+        <br>
+        <span style="color:var(--muted); font-size:12px">NC = Number of Columns,  R₁/C₁ = lower bounds</span>
+      </div>
+      <p style="font-size:13.5px; margin-top:8px">Row is fixed, columns vary continuously. Elements A[0][0], A[0][1], A[0][2] … A[1][0] … are stored in sequence.</p>
+    </div>
+    <div class="card card-amber">
+      <h3>Column-Major Order (FORTRAN)</h3>
+      <div class="formula">
+        <span class="label">Address of A[i][j] :</span>
+        <strong>Base + [(j – C₁)×NR + (i – R₁)] × Size</strong>
+        <br>
+        <span style="color:var(--muted); font-size:12px">NR = Number of Rows,  R₁/C₁ = lower bounds</span>
+      </div>
+      <p style="font-size:13.5px; margin-top:8px">Column is fixed, rows vary continuously. Elements A[0][0], A[1][0], A[2][0] … A[0][1] … are stored in sequence.</p>
+    </div>
+  </div>
+
+  <div class="exam-tip">
+    <div class="tip-title">🔥 Solved Example (asked in UGC NET)</div>
+    <p>Array A[1..4][1..5], base=100, each element 2 bytes, <strong>Row-Major</strong>. Find address of A[3][4].</p>
+    <div class="formula" style="margin-top:10px">
+      = 100 + [(3-1)×5 + (4-1)] × 2 &nbsp;=&nbsp; 100 + [10+3]×2 &nbsp;=&nbsp; 100 + 26 &nbsp;=&nbsp; <strong>126</strong>
+    </div>
+    <p style="margin-top:8px">NC = 5 (columns 1 to 5). R₁=1, C₁=1. Always subtract lower bounds from i and j.</p>
+  </div>
+
+  <div class="remember">
+    <div class="r-title">Key Points</div>
+    <ul>
+      <li>Row-major: used in C, C++, Java (row of a 2D array is contiguous in memory).</li>
+      <li>Column-major: used in FORTRAN, MATLAB, R.</li>
+      <li>Total elements in A[m..n] = n – m + 1.</li>
+      <li>Static arrays: fixed size at compile time. Dynamic arrays (ArrayList): resize by doubling → amortized O(1) insert.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TAB 3: LINKED LISTS ===================== -->
+<section class="tab-section" id="tab-linkedlist">
+  <div class="section-header">
+    <h2>Linked Lists</h2>
+    <p>Understand types, advantages over arrays, and operation complexities.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3>Singly Linked List</h3>
+      <ul>
+        <li>Each node: <code>data | next →</code></li>
+        <li>Last node points to NULL</li>
+        <li>Traverse only in one direction</li>
+        <li>Tail → next = NULL</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Doubly Linked List</h3>
+      <ul>
+        <li>Each node: <code>← prev | data | next →</code></li>
+        <li>Can traverse both directions</li>
+        <li>Head → prev = NULL</li>
+        <li>Tail → next = NULL</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Circular Linked List</h3>
+      <ul>
+        <li>Singly circular: tail → next = head</li>
+        <li>Doubly circular: tail → next = head, head → prev = tail</li>
+        <li>No NULL pointer</li>
+        <li>Used in round-robin scheduling</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Complexity Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Operation</th><th>Array</th><th>Singly LL</th><th>Doubly LL</th></tr>
+      <tr><td>Access by index</td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-ok">O(n)</span></td></tr>
+      <tr><td>Search</td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-ok">O(n)</span></td></tr>
+      <tr><td>Insert at head</td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-fast">O(1)</span></td></tr>
+      <tr><td>Insert at tail (with tail ptr)</td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-fast">O(1)</span></td></tr>
+      <tr><td>Insert in middle (given ptr)</td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-fast">O(1)</span></td></tr>
+      <tr><td>Delete at head</td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-fast">O(1)</span></td></tr>
+      <tr><td>Delete given node (need prev?)</td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-ok">O(n)</span></td><td><span class="cx cx-fast">O(1)</span></td></tr>
+      <tr><td>Memory per node</td><td>1 pointer</td><td>+1 pointer</td><td>+2 pointers</td></tr>
+    </table>
+  </div>
+
+  <div class="remember">
+    <div class="r-title">Key Points</div>
+    <ul>
+      <li>Advantage over array: dynamic size, efficient insertions/deletions at known position.</li>
+      <li>Disadvantage: no random access, extra memory for pointers, poor cache performance.</li>
+      <li>Detecting loop in LL: Floyd's cycle detection (slow &amp; fast pointer) → O(n) time, O(1) space.</li>
+      <li>Middle of LL: use two pointers — one moves 1 step, other moves 2 steps.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TAB 4: STACK & QUEUE ===================== -->
+<section class="tab-section" id="tab-stackqueue">
+  <div class="section-header">
+    <h2>Stack &amp; Queue</h2>
+    <p>Stack infix/postfix conversion and queue types are very frequently tested.</p>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card card-green">
+        <h3>Stack — LIFO (Last In, First Out)</h3>
+        <ul>
+          <li>Operations: <code>Push</code>, <code>Pop</code>, <code>Peek/Top</code>, <code>isEmpty</code> — all <span class="cx cx-fast">O(1)</span></li>
+          <li>Overflow: pushing to full stack</li>
+          <li>Underflow: popping from empty stack</li>
+        </ul>
+      </div>
+      <h3 class="sub-title" style="margin-top:16px">Stack Applications</h3>
+      <ul style="font-size:13.5px; padding-left:20px; line-height:2">
+        <li>Infix → Postfix / Prefix conversion</li>
+        <li>Postfix expression evaluation</li>
+        <li>Balanced parenthesis checking <span class="tag tag-hot">Hot</span></li>
+        <li>Function call management (activation records)</li>
+        <li>DFS graph traversal (iterative)</li>
+        <li>Undo / Redo operations</li>
+        <li>Tower of Hanoi</li>
+        <li>Backtracking algorithms</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card card-amber">
+        <h3>Queue — FIFO (First In, First Out)</h3>
+        <ul>
+          <li>Operations: <code>Enqueue</code>, <code>Dequeue</code>, <code>Front</code>, <code>Rear</code> — all <span class="cx cx-fast">O(1)</span></li>
+          <li>Front pointer: dequeue side</li>
+          <li>Rear pointer: enqueue side</li>
+        </ul>
+      </div>
+      <h3 class="sub-title" style="margin-top:16px">Types of Queue</h3>
+      <div class="grid-2" style="gap:10px">
+        <div class="card" style="padding:12px">
+          <p style="color:var(--amber); font-weight:500; font-size:13px">Circular Queue</p>
+          <p style="font-size:13px; margin-top:6px">Solves wasted space in simple queue. Rear wraps around to front. Condition: (rear+1)%n == front.</p>
+        </div>
+        <div class="card" style="padding:12px">
+          <p style="color:var(--teal); font-weight:500; font-size:13px">Priority Queue</p>
+          <p style="font-size:13px; margin-top:6px">Elements dequeued by priority, not order. Implemented using heap. Used in Dijkstra's, Prim's algorithms.</p>
+        </div>
+        <div class="card" style="padding:12px">
+          <p style="color:var(--purple); font-weight:500; font-size:13px">Deque (Double-Ended)</p>
+          <p style="font-size:13px; margin-top:6px">Insert/delete from both ends. Input-restricted or output-restricted deque.</p>
+        </div>
+        <div class="card" style="padding:12px">
+          <p style="color:var(--green); font-weight:500; font-size:13px">Applications</p>
+          <p style="font-size:13px; margin-top:6px">BFS traversal, CPU scheduling (Round Robin), I/O buffers, Printer spooling.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Infix → Postfix Conversion Rules <span class="tag tag-hot">Very Frequently Asked</span></h3>
+  <div class="grid-2">
+    <div>
+      <div class="formula">
+        <span class="label">Operator Precedence (High → Low):</span>
+        <strong>^ (right-assoc)</strong> &gt; <strong>* /</strong> &gt; <strong>+ -</strong> &gt; <strong>(</strong>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3>Algorithm Steps</h3>
+        <ol style="font-size:13.5px; padding-left:20px; line-height:2">
+          <li>Scan expression left to right.</li>
+          <li>Operand → immediately output it.</li>
+          <li>Open bracket <code>(</code> → push on stack.</li>
+          <li>Operator: pop and output operators with <strong>higher or equal</strong> precedence, then push.</li>
+          <li>Close bracket <code>)</code> → pop until <code>(</code> is found; discard both brackets.</li>
+          <li>End of expression → pop and output remaining stack elements.</li>
+        </ol>
+      </div>
+    </div>
+    <div>
+      <div class="exam-tip" style="margin-top:0">
+        <div class="tip-title">Worked Example</div>
+        <p><code>A + B * C - D</code> → Postfix?</p>
+        <div class="formula" style="margin-top:8px; font-size:12px">
+          Scan A → output A<br>
+          Scan + → push +<br>
+          Scan B → output B<br>
+          Scan * → * &gt; + so push *<br>
+          Scan C → output C<br>
+          Scan - → pop * (output), pop + (output), push -<br>
+          Scan D → output D<br>
+          End → pop - (output)<br>
+          <strong>Result: A B C * + D -</strong>
+        </div>
+      </div>
+      <div class="remember" style="margin-top:12px">
+        <div class="r-title">Infix → Prefix</div>
+        <p style="font-size:13.5px">Reverse the expression, swap ( and ), convert to postfix, then reverse result.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TAB 5: TREES ===================== -->
+<section class="tab-section" id="tab-trees">
+  <div class="section-header">
+    <h2>Trees</h2>
+    <p>Binary tree properties, BST, AVL rotations, Heap — all heavily tested.</p>
+  </div>
+
+  <h3 class="sub-title">Binary Tree Properties — Memorise All!</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Key Formulas</h3>
+      <div class="formula">
+        Max nodes at level i &nbsp;=&nbsp; <strong>2ⁱ</strong>  (root = level 0)
+        <br>Max nodes in height h &nbsp;=&nbsp; <strong>2^(h+1) – 1</strong>
+        <br>Min height with n nodes &nbsp;=&nbsp; <strong>⌊log₂n⌋</strong>
+        <br>Max height with n nodes &nbsp;=&nbsp; <strong>n – 1</strong>  (skewed tree)
+        <br>Leaf nodes &nbsp;=&nbsp; <strong>Internal nodes + 1</strong>  (full binary tree)
+        <br>Total nodes (full BT, L leaves) &nbsp;=&nbsp; <strong>2L – 1</strong>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Tree Traversals</h3>
+      <div class="table-wrap">
+        <table class="small-table">
+          <tr><th>Traversal</th><th>Order</th><th>Use case</th></tr>
+          <tr><td>Inorder</td><td>Left → Root → Right</td><td>BST sorted output</td></tr>
+          <tr><td>Preorder</td><td>Root → Left → Right</td><td>Tree copy, prefix</td></tr>
+          <tr><td>Postorder</td><td>Left → Right → Root</td><td>Tree deletion, postfix</td></tr>
+          <tr><td>Level-order</td><td>Level by level (BFS)</td><td>Shortest path in BT</td></tr>
+        </table>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:10px">Given any two traversals (inorder + preorder or inorder + postorder), tree can be uniquely reconstructed.</p>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Types of Binary Trees</h3>
+  <div class="grid-3">
+    <div class="card"><h3>Full (Strictly) BT</h3><p>Every node has exactly 0 or 2 children. No node has exactly 1 child.</p></div>
+    <div class="card"><h3>Complete BT</h3><p>All levels filled except possibly the last. Last level filled from left to right. Used for Heap implementation.</p></div>
+    <div class="card"><h3>Perfect BT</h3><p>All internal nodes have 2 children AND all leaves are at the same level. A perfect BT with height h has 2^(h+1)–1 nodes.</p></div>
+    <div class="card"><h3>Balanced BT</h3><p>Height of left and right subtrees differ by at most 1 for every node. Height = O(log n).</p></div>
+    <div class="card"><h3>Degenerate (Skewed)</h3><p>Every internal node has one child. Essentially a linked list. Height = n–1. BST operations become O(n).</p></div>
+    <div class="card"><h3>Extended BT</h3><p>Every missing child replaced by a special external (null) node. Used in analysing 2-3 trees.</p></div>
+  </div>
+
+  <h3 class="sub-title">Binary Search Tree (BST)</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h3>BST Property</h3>
+      <ul>
+        <li>Left subtree keys &lt; Root key</li>
+        <li>Right subtree keys &gt; Root key</li>
+        <li><strong>Inorder traversal = sorted order</strong></li>
+        <li>No duplicate keys (typically)</li>
+      </ul>
+      <div class="formula" style="margin-top:12px">
+        Search / Insert / Delete &nbsp;=&nbsp; <strong>O(h)</strong>
+        <br>Average (random): <strong>O(log n)</strong>
+        <br>Worst (skewed): <strong>O(n)</strong>
+      </div>
+    </div>
+    <div class="card">
+      <h3>BST Deletion — 3 Cases</h3>
+      <ol style="font-size:13.5px; padding-left:18px; line-height:2">
+        <li>Node is a leaf → simply remove it.</li>
+        <li>Node has one child → replace node with its child.</li>
+        <li>Node has two children → replace with <strong>inorder successor</strong> (smallest in right subtree) or <strong>inorder predecessor</strong> (largest in left subtree), then delete that node.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3 class="sub-title">AVL Tree (Height-Balanced BST) <span class="tag tag-hot">Very Hot Topic</span></h3>
+  <div class="card" style="margin-bottom:14px">
+    <p><strong>Balance Factor (BF)</strong> = Height(left subtree) – Height(right subtree). BF must be –1, 0, or +1 for every node.</p>
+    <p style="margin-top:8px">Height of AVL tree with n nodes is always <strong>O(log n)</strong>. Guaranteed O(log n) for all operations.</p>
+  </div>
+  <div class="avl-grid">
+    <div class="avl-card">
+      <div class="avl-name">LL Rotation</div>
+      <div class="avl-trigger">Inserted in Left of Left child</div>
+      <div class="avl-fix">→ Single Right Rotation</div>
+    </div>
+    <div class="avl-card">
+      <div class="avl-name">RR Rotation</div>
+      <div class="avl-trigger">Inserted in Right of Right child</div>
+      <div class="avl-fix">→ Single Left Rotation</div>
+    </div>
+    <div class="avl-card">
+      <div class="avl-name">LR Rotation</div>
+      <div class="avl-trigger">Inserted in Right of Left child</div>
+      <div class="avl-fix">→ Left then Right Rotation</div>
+    </div>
+    <div class="avl-card">
+      <div class="avl-name">RL Rotation</div>
+      <div class="avl-trigger">Inserted in Left of Right child</div>
+      <div class="avl-fix">→ Right then Left Rotation</div>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Heap</h3>
+  <div class="grid-2">
+    <div class="card card-green">
+      <h3>Heap Properties</h3>
+      <ul>
+        <li><strong>Max-Heap:</strong> parent ≥ children (root = max)</li>
+        <li><strong>Min-Heap:</strong> parent ≤ children (root = min)</li>
+        <li>Always a <strong>complete binary tree</strong></li>
+        <li>For array representation: parent of i = ⌊(i-1)/2⌋, left child = 2i+1, right child = 2i+2</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Heap Complexities</h3>
+      <div class="table-wrap">
+        <table class="small-table">
+          <tr><th>Operation</th><th>Time</th></tr>
+          <tr><td>Insert (heapify up)</td><td><span class="cx cx-good">O(log n)</span></td></tr>
+          <tr><td>Extract max/min (heapify down)</td><td><span class="cx cx-good">O(log n)</span></td></tr>
+          <tr><td>Build heap from n elements</td><td><span class="cx cx-ok">O(n)</span></td></tr>
+          <tr><td>Heap sort (n elements)</td><td><span class="cx cx-ok">O(n log n)</span></td></tr>
+          <tr><td>Peek (max or min)</td><td><span class="cx cx-fast">O(1)</span></td></tr>
+          <tr><td>Search</td><td><span class="cx cx-ok">O(n)</span></td></tr>
+        </table>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:8px">Build heap = O(n), NOT O(n log n) — common trick question!</p>
+    </div>
+  </div>
+
+  <div class="exam-tip">
+    <div class="tip-title">🔥 UGC NET Hot Points — Trees</div>
+    <ul>
+      <li><strong>Build heap is O(n)</strong> — not O(n log n). Frequently asked as MCQ trap.</li>
+      <li>Minimum number of nodes in AVL tree of height h: N(h) = N(h-1) + N(h-2) + 1, where N(0)=1, N(1)=2.</li>
+      <li>B-Tree: All leaves at same level. Minimum degree t → each node has 2t–1 max keys, t–1 min keys (except root).</li>
+      <li>Threaded binary tree: NULL pointers replaced by threads to inorder predecessor/successor for faster traversal.</li>
+      <li>In a complete binary tree with n nodes: number of leaf nodes = ⌈n/2⌉.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TAB 6: GRAPHS ===================== -->
+<section class="tab-section" id="tab-graphs">
+  <div class="section-header">
+    <h2>Graphs</h2>
+    <p>BFS/DFS, Dijkstra's, Floyd-Warshall, Kruskal's, Prim's — all come in UGC NET.</p>
+  </div>
+
+  <h3 class="sub-title">Graph Representations</h3>
+  <div class="grid-2">
+    <div class="card card-green">
+      <h3>Adjacency Matrix</h3>
+      <ul>
+        <li>V×V matrix; cell [i][j]=1 if edge i→j exists</li>
+        <li>Space: <strong>O(V²)</strong></li>
+        <li>Edge check: <strong>O(1)</strong></li>
+        <li>Adding vertex: O(V²) (resize matrix)</li>
+        <li>Best for: dense graphs</li>
+      </ul>
+    </div>
+    <div class="card card-amber">
+      <h3>Adjacency List</h3>
+      <ul>
+        <li>Array of V lists; each list holds neighbours</li>
+        <li>Space: <strong>O(V + E)</strong></li>
+        <li>Edge check: <strong>O(degree)</strong></li>
+        <li>Adding vertex: O(1)</li>
+        <li>Best for: sparse graphs (real-world networks)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Graph Traversals</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h3>BFS (Breadth-First Search)</h3>
+      <ul>
+        <li>Uses a <strong>Queue</strong></li>
+        <li>Explores level by level</li>
+        <li>Time: <span class="cx cx-ok">O(V + E)</span> &nbsp; Space: <span class="cx cx-ok">O(V)</span></li>
+        <li>Finds <strong>shortest path in unweighted</strong> graphs</li>
+        <li>Produces a BFS tree (spanning tree)</li>
+        <li>Applications: shortest path, social networks, web crawling, peer-to-peer networks</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>DFS (Depth-First Search)</h3>
+      <ul>
+        <li>Uses a <strong>Stack</strong> (or recursion)</li>
+        <li>Explores as deep as possible first</li>
+        <li>Time: <span class="cx cx-ok">O(V + E)</span> &nbsp; Space: <span class="cx cx-ok">O(V)</span></li>
+        <li>Applications: topological sorting, cycle detection, SCC (Kosaraju's/Tarjan's), maze solving, backtracking</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Shortest Path Algorithms</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Algorithm</th><th>Time (basic)</th><th>Time (with heap)</th><th>Negative weights?</th><th>Type</th></tr>
+      <tr>
+        <td class="algo-name">Dijkstra's</td>
+        <td><span class="cx cx-slow">O(V²)</span></td>
+        <td><span class="cx cx-ok">O((V+E) log V)</span></td>
+        <td><span class="tag tag-no">No</span></td>
+        <td>Single source</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Bellman-Ford</td>
+        <td><span class="cx cx-slow">O(VE)</span></td>
+        <td>—</td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Single source, detects negative cycle</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Floyd-Warshall</td>
+        <td><span class="cx cx-slow">O(V³)</span></td>
+        <td>—</td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>All pairs shortest path</td>
+      </tr>
+      <tr>
+        <td class="algo-name">DAG Shortest</td>
+        <td><span class="cx cx-ok">O(V+E)</span></td>
+        <td>—</td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Works on DAG using topological sort</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3 class="sub-title">Minimum Spanning Tree (MST)</h3>
+  <div class="grid-2">
+    <div class="card card-green">
+      <h3>Kruskal's Algorithm</h3>
+      <ul>
+        <li>Sort all edges by weight: <strong>O(E log E)</strong></li>
+        <li>Add edge if it doesn't form a cycle (use Union-Find)</li>
+        <li>Total: <strong>O(E log E)</strong> or O(E log V)</li>
+        <li>Best for: <strong>sparse graphs</strong></li>
+        <li>Uses: <strong>greedy</strong> approach on edges</li>
+      </ul>
+    </div>
+    <div class="card card-amber">
+      <h3>Prim's Algorithm</h3>
+      <ul>
+        <li>Start from any vertex, grow MST greedily</li>
+        <li>With adjacency matrix: <strong>O(V²)</strong></li>
+        <li>With priority queue + adj list: <strong>O(E log V)</strong></li>
+        <li>Best for: <strong>dense graphs</strong></li>
+        <li>Uses: greedy approach on <strong>vertices</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exam-tip">
+    <div class="tip-title">🔥 UGC NET Hot Points — Graphs</div>
+    <ul>
+      <li>A graph with V vertices and V-1 edges that is connected = a <strong>Tree</strong>.</li>
+      <li>Topological sort is only possible for <strong>DAG</strong> (Directed Acyclic Graph). Uses DFS.</li>
+      <li>Maximum edges in undirected graph: <strong>V(V-1)/2</strong>. In directed: <strong>V(V-1)</strong>.</li>
+      <li>Euler circuit exists if and only if all vertices have <strong>even degree</strong>.</li>
+      <li>Euler path exists if exactly <strong>0 or 2 vertices</strong> have odd degree.</li>
+      <li>Dijkstra's fails with negative weights — use Bellman-Ford instead.</li>
+      <li>A complete graph K<sub>n</sub> has n(n-1)/2 edges.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TAB 7: SORTING ===================== -->
+<section class="tab-section" id="tab-sorting">
+  <div class="section-header">
+    <h2>Sorting Algorithms</h2>
+    <p>THE most tested topic in UGC NET DSA. Know every algorithm's time, space complexity, and stability.</p>
+  </div>
+
+  <h3 class="sub-title">Master Complexity Table <span class="tag tag-hot">Always in Exam</span></h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Algorithm</th>
+        <th>Best Case</th>
+        <th>Average Case</th>
+        <th>Worst Case</th>
+        <th>Space</th>
+        <th>Stable?</th>
+        <th>Method</th>
+      </tr>
+      <tr>
+        <td class="algo-name">Bubble Sort</td>
+        <td><span class="cx cx-ok">O(n)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-fast">O(1)</span></td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Exchange</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Selection Sort</td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-fast">O(1)</span></td>
+        <td><span class="tag tag-no">No</span></td>
+        <td>Selection</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Insertion Sort</td>
+        <td><span class="cx cx-ok">O(n)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-fast">O(1)</span></td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Insertion</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Shell Sort</td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n log²n)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-fast">O(1)</span></td>
+        <td><span class="tag tag-no">No</span></td>
+        <td>Insertion</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Merge Sort</td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n)</span></td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Divide &amp; Conquer</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Quick Sort</td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-good">O(log n)</span></td>
+        <td><span class="tag tag-no">No</span></td>
+        <td>Divide &amp; Conquer</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Heap Sort</td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-ok">O(n log n)</span></td>
+        <td><span class="cx cx-fast">O(1)</span></td>
+        <td><span class="tag tag-no">No</span></td>
+        <td>Selection (Heap)</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Counting Sort</td>
+        <td><span class="cx cx-good">O(n+k)</span></td>
+        <td><span class="cx cx-good">O(n+k)</span></td>
+        <td><span class="cx cx-good">O(n+k)</span></td>
+        <td><span class="cx cx-good">O(k)</span></td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Non-comparison</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Radix Sort</td>
+        <td><span class="cx cx-good">O(nk)</span></td>
+        <td><span class="cx cx-good">O(nk)</span></td>
+        <td><span class="cx cx-good">O(nk)</span></td>
+        <td><span class="cx cx-ok">O(n+k)</span></td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Non-comparison</td>
+      </tr>
+      <tr>
+        <td class="algo-name">Bucket Sort</td>
+        <td><span class="cx cx-ok">O(n+k)</span></td>
+        <td><span class="cx cx-ok">O(n+k)</span></td>
+        <td><span class="cx cx-slow">O(n²)</span></td>
+        <td><span class="cx cx-ok">O(n)</span></td>
+        <td><span class="tag tag-yes">Yes</span></td>
+        <td>Non-comparison</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <h3 class="sub-title">Critical Insights</h3>
+      <div class="card">
+        <ul style="font-size:13.5px; line-height:2">
+          <li><strong>Best general-purpose:</strong> Quick Sort (avg O(n log n), in-place)</li>
+          <li><strong>Guaranteed O(n log n):</strong> Merge Sort &amp; Heap Sort</li>
+          <li><strong>External sorting:</strong> Merge Sort (disk I/O friendly)</li>
+          <li><strong>Nearly sorted data:</strong> Insertion Sort is best (O(n))</li>
+          <li><strong>Only O(1) space + O(n log n) all cases:</strong> Heap Sort</li>
+          <li><strong>Linear time (when possible):</strong> Counting, Radix, Bucket</li>
+          <li><strong>Quick Sort worst case:</strong> already sorted array + first/last pivot</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h3 class="sub-title">Stability — What Is It?</h3>
+      <div class="card">
+        <p style="font-size:13.5px">A sort is <strong>stable</strong> if equal elements maintain their <strong>original relative order</strong> after sorting.</p>
+        <div class="formula" style="margin-top:10px; font-size:12px">
+          <strong>Stable:</strong> Bubble, Insertion, Merge, Counting, Radix, Bucket
+          <br><strong>Not Stable:</strong> Selection, Quick, Heap, Shell
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:10px">Trick: "BIM CRB" = stable sorts. Stability matters when secondary keys must preserve order.</p>
+      </div>
+
+      <h3 class="sub-title" style="margin-top:14px">Comparison-based Lower Bound</h3>
+      <div class="formula">
+        Min comparisons needed to sort n elements = <strong>Ω(n log n)</strong>
+        <br><span style="color:var(--muted); font-size:12px">Proof: decision tree has n! leaves, height ≥ log₂(n!)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="exam-tip">
+    <div class="tip-title">🔥 Tricky UGC NET Questions on Sorting</div>
+    <ul>
+      <li>Quick Sort: worst case O(n²) but <strong>average O(n log n)</strong> with random pivot — median-of-3 prevents worst case.</li>
+      <li>Selection Sort makes exactly <strong>n-1 swaps</strong> (regardless of data) — minimum swaps property.</li>
+      <li>Bubble Sort in best case with optimization flag: <strong>O(n)</strong> — only 0 swaps needed for sorted array.</li>
+      <li>Merge Sort: divide step = O(1), merge step = O(n), depth = O(log n) → total O(n log n).</li>
+      <li>Which sorting algorithms are NOT comparison-based? → Counting, Radix, Bucket sort.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== TAB 8: SEARCHING & HASHING ===================== -->
+<section class="tab-section" id="tab-hashing">
+  <div class="section-header">
+    <h2>Searching &amp; Hashing</h2>
+    <p>Binary search conditions, hash functions, and collision resolution — all come in UGC NET.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Linear Search</h3>
+      <ul>
+        <li>Works on: unsorted AND sorted arrays</li>
+        <li>Best: <span class="cx cx-fast">O(1)</span> (element at first position)</li>
+        <li>Average/Worst: <span class="cx cx-ok">O(n)</span></li>
+        <li>No pre-processing needed</li>
+      </ul>
+    </div>
+    <div class="card card-green">
+      <h3>Binary Search</h3>
+      <ul>
+        <li><strong>Requires: sorted array</strong></li>
+        <li>Best: <span class="cx cx-fast">O(1)</span></li>
+        <li>Average/Worst: <span class="cx cx-good">O(log n)</span></li>
+        <li>Divide search space in half each step</li>
+        <li>Recurrence: T(n) = T(n/2) + O(1)</li>
+      </ul>
+      <div class="formula" style="margin-top:10px">
+        mid = low + (high – low) / 2
+        <br><span style="color:var(--muted); font-size:11px">(avoids integer overflow vs (low+high)/2)</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Hashing</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h3>Hash Functions</h3>
+      <div class="formula">
+        <span class="label">Division Method:</span>
+        h(k) = k mod m &nbsp;&nbsp; (m = table size, m = prime)
+        <br>
+        <span class="label" style="margin-top:8px">Multiplication Method:</span>
+        h(k) = ⌊m × (k·A mod 1)⌋ &nbsp; A ≈ 0.618
+        <br>
+        <span class="label" style="margin-top:8px">Mid-Square:</span>
+        Square the key, take middle digits as index
+      </div>
+      <p style="font-size:13.5px; margin-top:8px"><strong>Load factor α</strong> = n/m (n = items, m = slots). Lower α = fewer collisions.</p>
+    </div>
+    <div class="card">
+      <h3>Hashing Complexities</h3>
+      <div class="table-wrap">
+        <table class="small-table">
+          <tr><th>Operation</th><th>Average</th><th>Worst</th></tr>
+          <tr><td>Search</td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-ok">O(n)</span></td></tr>
+          <tr><td>Insert</td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-ok">O(n)</span></td></tr>
+          <tr><td>Delete</td><td><span class="cx cx-fast">O(1)</span></td><td><span class="cx cx-ok">O(n)</span></td></tr>
+        </table>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-top:10px">Worst case O(n) when all keys hash to the same slot (full collision).</p>
+    </div>
+  </div>
+
+  <h3 class="sub-title">Collision Resolution Techniques</h3>
+  <div class="grid-2">
+    <div>
+      <div class="card card-amber">
+        <h3>Chaining (Open Hashing)</h3>
+        <ul>
+          <li>Each slot holds a <strong>linked list</strong></li>
+          <li>Multiple keys can share same slot</li>
+          <li>No overflow if table has capacity in lists</li>
+          <li>Average search: O(1 + α)</li>
+          <li>Load factor can exceed 1</li>
+          <li>Simple to implement, but extra memory</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card card-purple">
+        <h3>Open Addressing (Closed Hashing)</h3>
+        <p style="font-size:13.5px; margin-bottom:10px">All keys stored in the table itself. Load factor must stay ≤ 1.</p>
+        <div class="formula" style="font-size:12px">
+          <strong>Linear Probing:</strong> h(k,i) = (h(k) + i) mod m<br>
+          — Easy but causes primary clustering<br><br>
+          <strong>Quadratic Probing:</strong> h(k,i) = (h(k) + c₁i + c₂i²) mod m<br>
+          — Reduces clustering; secondary clustering exists<br><br>
+          <strong>Double Hashing:</strong> h(k,i) = (h₁(k) + i·h₂(k)) mod m<br>
+          — Best method, almost no clustering
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="remember">
+    <div class="r-title">Key Hashing Facts for Exam</div>
+    <ul>
+      <li><strong>Best m (table size):</strong> a prime number far from powers of 2 (for division method).</li>
+      <li><strong>Clustering:</strong> Linear probing → primary clustering. Quadratic → secondary clustering. Double hashing → no clustering.</li>
+      <li><strong>Perfect hashing:</strong> O(1) worst case — requires advance knowledge of all keys.</li>
+      <li>Load factor α &gt; 0.7 significantly increases collision chance in open addressing. Rehash at α ≈ 0.7.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-title">Dynamic Programming vs Greedy vs Divide &amp; Conquer</h3>
+  <div class="grid-3">
+    <div class="card">
+      <h3 style="color:var(--green)">Dynamic Programming</h3>
+      <ul>
+        <li>Optimal substructure + overlapping subproblems</li>
+        <li>Memoization (top-down) or Tabulation (bottom-up)</li>
+        <li>0/1 Knapsack: O(nW)</li>
+        <li>LCS: O(mn), LIS: O(n²)</li>
+        <li>Matrix Chain: O(n³)</li>
+        <li>Floyd-Warshall: O(V³)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--amber)">Greedy Algorithms</h3>
+      <ul>
+        <li>Locally optimal choice at each step</li>
+        <li>Greedy-choice property + optimal substructure</li>
+        <li>Activity Selection: O(n log n)</li>
+        <li>Fractional Knapsack: O(n log n)</li>
+        <li>Huffman Coding: O(n log n)</li>
+        <li>Dijkstra's, Prim's, Kruskal's</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--purple)">Divide &amp; Conquer</h3>
+      <ul>
+        <li>Divide → Solve → Combine</li>
+        <li>Merge Sort: O(n log n)</li>
+        <li>Quick Sort: O(n log n) avg</li>
+        <li>Binary Search: O(log n)</li>
+        <li>Strassen's Matrix: O(n^2.81)</li>
+        <li>Recurrences solved by Master Theorem</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exam-tip">
+    <div class="tip-title">🔥 DP vs Greedy — Favourite MCQ Trap</div>
+    <ul>
+      <li><strong>0/1 Knapsack</strong> → Dynamic Programming (greedy fails).</li>
+      <li><strong>Fractional Knapsack</strong> → Greedy works perfectly.</li>
+      <li>Activity Selection → Greedy (select earliest finishing time).</li>
+      <li>Huffman encoding produces <strong>optimal prefix-free code</strong> — proved by greedy exchange argument.</li>
+    </ul>
+  </div>
+
+  <div class="back-top"><a href="#top">↑ Back to top</a></div>
+</section>
+
+</div><!-- end .main -->
+
+<script>
+const tabs = document.querySelectorAll('.tab-btn');
+const sections = document.querySelectorAll('.tab-section');
+tabs.forEach(btn => {
+  btn.addEventListener('click', () => {
+    tabs.forEach(b => b.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    const id = 'tab-' + btn.dataset.tab;
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
